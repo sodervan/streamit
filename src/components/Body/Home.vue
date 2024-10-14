@@ -53,10 +53,6 @@
           </div>
         </CarouselItem>
       </CarouselContent>
-
-      <!-- Carousel navigation buttons -->
-      <CarouselPrevious />
-      <CarouselNext />
     </Carousel>
 
     <PopularMovies v-if="!$store.state.isLoading"/>

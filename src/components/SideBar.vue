@@ -20,7 +20,7 @@
 
     <!-- Navbar content that opens when menu is clicked -->
     <div
-      :class="`transition-transform duration-300 h-screen mt-auto fixed top-0 left-0 bg-black z-10  w-full ${isNavOpen ? 'translate-x-0 bg-primaryBlack' : '-translate-x-full'}`"
+      :class="`transition-transform duration-300 h-screen mt-auto fixed top-0 left-0 bg-black z-10 w-full ${isNavOpen ? 'translate-x-0 bg-primaryBlack' : '-translate-x-full'}`"
     >
       <div class="px-6 py-4 flex flex-col gap-10">
         <div>

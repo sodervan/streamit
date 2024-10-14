@@ -9,7 +9,7 @@
       <div
           v-for="(item, index) in $store.state.popularMoviesData"
           :key="index"
-          class="mb-6 flex flex-col items-center cursor-pointer"
+          class="mb-6 flex flex-col items-center cursor-pointer shadow-lg"
       >
         <!-- Image container with relative height -->
         <div class="relative w-full h-52">
