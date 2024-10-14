@@ -1,0 +1,38 @@
+{
+  "name": "stream-it",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@coreui/coreui": "^5.1.2",
+    "@coreui/vue": "^5.4.0",
+    "@flaticon/flaticon-uicons": "^3.3.1",
+    "@vueuse/core": "^11.1.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "embla-carousel-autoplay": "^8.3.0",
+    "embla-carousel-vue": "^8.3.0",
+    "lucide-vue-next": "^0.452.0",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.1.0",
+    "radix-vue": "^1.9.7",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.7",
+    "tailwindcss-primeui": "^0.3.4",
+    "vue": "^3.5.10",
+    "vue-router": "^4.4.5",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13",
+    "vite": "^5.4.8"
+  }
+}
