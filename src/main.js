@@ -9,6 +9,7 @@ const store = createStore({
     return {
       isLoading: false,
       trendingMoviesData: [],
+      popularMoviesData: [],
     };
   },
   mutations: {
@@ -19,6 +20,9 @@ const store = createStore({
 
     setTrendingMoviesData(state, payload) {
       state.trendingMoviesData = payload;
+    },
+    setPopularMoviesData(state, payload) {
+      state.popularMoviesData = payload;
     },
   },
   actions: {
@@ -44,6 +48,29 @@ const store = createStore({
         console.log(error);
       } finally {
         context.commit("setIsLoading");
+      }
+    },
+
+    async fetchPopularMoviesData(context, payload) {
+      // context.commit("setIsLoading");
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNmZmN2JkOWMxZmY5MTk4M2U4YmIyMTU4YjY0MzIzNSIsIm5iZiI6MTcyODc3MDY4MS4wMzIxMTgsInN1YiI6IjY2YmI1N2Q1NzAxNjYyMWZiMDczMDIxMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UYjZnCFWNuHFaiddoofrRDt_EkLwxwObJeOPLfn0tKE",
+        },
+      };
+      try {
+        const response = await fetch(
+          "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
+          options,
+        );
+        const result = await response.json();
+        context.commit("setPopularMoviesData", result.results);
+        console.log(context.state.popularMoviesData)
+      } catch (error) {
+        console.log(error);
       }
     },
   },

@@ -58,6 +58,8 @@
       <CarouselPrevious />
       <CarouselNext />
     </Carousel>
+
+    <PopularMovies v-if="!$store.state.isLoading"/>
   </div>
 </template>
 
@@ -71,15 +73,17 @@ import {
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
 import Autoplay from "embla-carousel-autoplay";
-import {Skeleton} from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
+import PopularMovies from "@/components/PopularMovies.vue";
 
 export default {
   data() {
     return {
-      autoplayPlugin: Autoplay({ delay: 3000 }), // Autoplay with 3-second delay
+      autoplayPlugin: Autoplay({ delay: 5000 }), // Autoplay with 3-second delay
     };
   },
   components: {
+    PopularMovies,
     Carousel,
     CarouselNext,
     CarouselPrevious,
@@ -87,10 +91,11 @@ export default {
     CarouselContent,
     Button,
     Autoplay,
-    Skeleton
+    Skeleton,
   },
   mounted() {
     this.$store.dispatch("fetchTrendingMovies");
+    this.$store.dispatch("fetchPopularMoviesData");
   },
 };
 </script>

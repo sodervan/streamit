@@ -26,9 +26,10 @@
         <div>
           <div class="flex items-center justify-between">
             <div class="cursor-pointer">
-              <p class="text-white text-2xl font-bold font-pacifico">
+              <p class="text-white text-xl font-bold font-pacifico">
                 <span class="text-primaryRed">STREAM</span>it
               </p>
+              <p class="text-sm text-gray-500">by _sodervan</p>
             </div>
             <button @click="onChangeNav">
               <i class="fi fi-rr-cross text-white"></i>
