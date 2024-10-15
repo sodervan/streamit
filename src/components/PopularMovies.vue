@@ -21,16 +21,20 @@
         </div>
 
         <!-- Movie title with conditional marquee effect -->
-        <div class="bg-[#151414] w-full h-20 px-3 py-2 flex items-start overflow-hidden relative">
+        <div class="bg-[#151414] flex flex-col w-full h-20 px-3 py-2 items-start overflow-hidden relative">
           <p
               ref="movieTitle"
-              class="text-white text-sm"
+              class="text-white text-md"
               :class="{ marquee: isOverflowing(item.original_title, index) }"
               @mouseover="stopMarquee(index)"
               @mouseleave="startMarquee(index)"
           >
             {{ item.original_title }}
           </p>
+          <div class="flex items-center">
+            <i class="fi fi-rr-calendar mr-2 text-red-500"></i>
+            <p class="text-gray-500 text-sm">{{item.release_date}}</p>
+          </div>
         </div>
       </div>
     </div>
