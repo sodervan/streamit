@@ -31,7 +31,7 @@
           >
             {{ item.original_title }}
           </p>
-          <div class="flex items-center">
+          <div class="flex items-center mt-1">
             <i class="fi fi-rr-calendar mr-2 text-red-500"></i>
             <p class="text-gray-500 text-sm">{{item.release_date}}</p>
           </div>
