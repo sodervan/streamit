@@ -1,6 +1,6 @@
 <template>
   <div class="pt-16 h-screen">
-    <div v-if="$store.state.isLoading">
+    <div v-if="$store.state.isLoading" class="px-6">
       <div class="flex flex-col space-y-3">
         <Skeleton class="h-[125px] w-full rounded-xl" />
         <div class="space-y-2">
