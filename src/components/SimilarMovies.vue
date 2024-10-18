@@ -10,8 +10,6 @@
       </div>
     </div>
     <div v-if="!isLoading">
-      <p class="text-white text-center">SIMILAR MOVIES</p>
-
       <div class="grid grid-cols-2 gap-3">
         <router-link
           v-for="(item, index) in similarMoviesData"
@@ -91,7 +89,7 @@ export default {
       };
       try {
         const response = await fetch(
-          `https://api.themoviedb.org/3/movie/${this.details.id}/similar?language=en-US&page=1`,
+          `https://api.themoviedb.org/3/movie/${this.$route.params.id}/similar?language=en-US&page=1`,
           options,
         );
         const result = await response.json();
@@ -105,7 +103,9 @@ export default {
     },
   },
   mounted() {
-    this.fetchSimilarMovies()
+    setTimeout(() => {
+      this.fetchSimilarMovies();
+    }, 1000);
   },
 };
 </script>
