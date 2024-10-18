@@ -44,21 +44,36 @@
               <h3 class="text-lg font-bold">
                 {{ movie.title }}
               </h3>
+              <div class="flex items-center gap-4">
+                <div>
+                  <p class="text-red-500 font-medium">
+                    {{ movie.vote_average }}
+                  </p>
+                </div>
+                <div>
+                  <p>{{ movie.release_date }}</p>
+                </div>
+                <div class="px-2 border border-white">
+                  <p>{{ movie.original_language }}</p>
+                </div>
+              </div>
 
               <!-- Movie overview with read more/less functionality -->
-              <p class="text-sm text-gray-300 mt-3">
-                <!-- Conditionally show truncated or full text based on isExpanded -->
-                {{
-                  expandedMovie === index
-                    ? movie.overview
-                    : truncatedText(movie.overview)
-                }}
-              </p>
+              <div class="overflow-auto">
+                <p class="text-sm text-gray-300 mt-3">
+                  <!-- Conditionally show truncated or full text based on isExpanded -->
+                  {{
+                    expandedMovie === index
+                      ? movie.overview
+                      : truncatedText(movie.overview)
+                  }}
+                </p>
+              </div>
 
               <!-- Toggle button for Read More / Read Less -->
               <button
                 @click="toggleReadMore(index)"
-                class="text-green-500 text-sm underline"
+                class="text-red-500 text-sm underline"
               >
                 {{ expandedMovie === index ? "Read Less" : "Read More" }}
               </button>
