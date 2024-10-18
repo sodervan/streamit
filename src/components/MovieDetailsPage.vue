@@ -9,45 +9,51 @@
         </div>
       </div>
     </div>
-    <div class="w-full h-[300px]" v-if="!isLoading">
-      <!-- Use route params correctly -->
-      <iframe
-        :src="`https://vidsrc.cc/v2/embed/movie/${$route.params.id}?autoPlay=false`"
-        class="w-full h-full"
-        frameborder="0"
-        allowfullscreen
-      ></iframe>
-    </div>
-    <div class="px-6">
-      <div class="mt-4">
-        <p class="text-white text-lg font-medium">
-          {{ details.original_title }}
-        </p>
+    <div v-if="!isLoading && details.original_title">
+      <div class="w-full h-[300px]">
+        <!-- Use route params correctly -->
+        <iframe
+          :src="`https://vidsrc.cc/v2/embed/movie/${$route.params.id}?autoPlay=false`"
+          class="w-full h-full"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
       </div>
-      <div class="flex items-center gap-4 mt-3">
-        <p class="text-red-500 font-medium">{{ details.vote_average }}</p>
-        <p class="text-white">{{ details.release_date }}</p>
-        <div class="px-2 border border-white">
-          <p class="text-white">{{ details.original_language }}</p>
+      <div class="px-6">
+        <div class="mt-4">
+          <p class="text-white text-lg font-medium">
+            {{ details.original_title }}
+          </p>
+        </div>
+        <div class="flex items-center gap-4 mt-3">
+          <p class="text-red-500 font-medium">{{ details.vote_average }}</p>
+          <p class="text-white">{{ details.release_date }}</p>
+          <div class="px-2 border border-white">
+            <p class="text-white">{{ details.original_language }}</p>
+          </div>
+        </div>
+        <div class="mt-3">
+          <p class="text-md text-gray-300">{{ details.overview }}</p>
+        </div>
+        <div class="mt-3">
+          <p class="text-red-500">
+            Genres:
+            <span
+              v-for="(item, index) in details.genres"
+              class="text-sm text-gray-400"
+              >{{ item.name
+              }}<span v-if="details.genres.length > 1">, </span></span
+            >
+          </p>
         </div>
       </div>
-      <div class="mt-3">
-        <p class="text-md text-gray-300">{{ details.overview }}</p>
-      </div>
-      <div class="mt-3">
-        <p class="text-red-500">
-          Genres:
-          <span
-            v-for="(item, index) in details.genres"
-            class="text-sm text-gray-400"
-            >{{ item.name
-            }}<span v-if="details.genres.length > 1">, </span></span
-          >
-        </p>
-      </div>
+      <p
+        class="text-white text-center font-medium mt-10"
+      >
+        SIMILAR MOVIES
+      </p>
+      <SimilarMovies />
     </div>
-    <p class="text-white text-center font-medium mt-10">SIMILAR MOVIES</p>
-    <SimilarMovies />
   </div>
 </template>
 
@@ -92,6 +98,14 @@ export default {
       } finally {
         this.isLoading = !this.isLoading;
       }
+    },
+  },
+  watch: {
+    "$route.params.id": {
+      immediate: true,
+      handler() {
+        this.fetchMovieById();
+      },
     },
   },
   mounted() {

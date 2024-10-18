@@ -15,17 +15,6 @@
           v-for="(item, index) in similarMoviesData"
           :to="'/details/' + item.original_title + '/' + item.id"
           class="mb-6 flex flex-col items-center cursor-pointer shadow-lg"
-          @click="
-            passSelectedDetails(
-              item.original_title,
-              item.vote_average,
-              item.release_date,
-              item.original_language,
-              item.overview,
-              item.genre_ids,
-              item.id,
-            )
-          "
         >
           <!-- Image container with relative height -->
           <div class="relative w-full h-52">
@@ -100,6 +89,14 @@ export default {
       } finally {
         this.isLoading = !this.isLoading;
       }
+    },
+  },
+  watch: {
+    "$route.params.id": {
+      immediate: true,
+      handler() {
+        this.fetchSimilarMovies();
+      },
     },
   },
   mounted() {

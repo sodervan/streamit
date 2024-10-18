@@ -13,7 +13,11 @@
         <i class="fi fi-rr-menu-burger text-white text-xl"></i>
       </button>
       <!-- Search Icon -->
-      <button aria-label="Search" class="cursor-pointer">
+      <button
+        aria-label="Search"
+        class="cursor-pointer"
+        @click="onChangeSearchDialogueState"
+      >
         <i class="fi fi-rr-search text-white text-xl"></i>
       </button>
     </div>
@@ -25,12 +29,12 @@
       <div class="px-6 py-4 flex flex-col gap-10">
         <div>
           <div class="flex items-center justify-between">
-            <div class="cursor-pointer">
+            <router-link to="/" class="cursor-pointer" @click="onChangeNav">
               <p class="text-white text-xl font-bold font-pacifico">
-                <span class="text-primaryRed">STREAM</span>it
+                STREAM<span class="text-red-500">it</span>
               </p>
               <p class="text-sm text-gray-500">by _sodervan</p>
-            </div>
+            </router-link>
             <button @click="onChangeNav">
               <i class="fi fi-rr-cross text-white"></i>
             </button>
@@ -82,32 +86,118 @@
         </div>
       </div>
     </div>
+
+    <!-- Dialog or Drawer -->
+    <Dialog v-if="isDesktop" v-model:open="showSearchDialogue">
+      <DialogTrigger as-child>
+        <!-- Optionally, add a button here -->
+      </DialogTrigger>
+      <DialogContent class="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Search</DialogTitle>
+          <DialogDescription>
+            Search for movies, TV shows, etc.
+          </DialogDescription>
+        </DialogHeader>
+        <!-- Your Search form inside the Dialog -->
+        <form class="grid items-start gap-4 px-4">
+          <div class="grid gap-2">
+            <Label html-for="search">Search</Label>
+            <Input id="search" type="text" placeholder="Search movies..." />
+          </div>
+          <Button type="submit"> Search</Button>
+        </form>
+      </DialogContent>
+    </Dialog>
+
+    <Drawer v-else v-model:open="showSearchDialogue">
+      <DrawerTrigger as-child>
+        <!-- Optionally, add a button here -->
+      </DrawerTrigger>
+      <DrawerContent class="font-poppins border-none">
+        <DrawerHeader class="text-left">
+          <DrawerTitle>Search</DrawerTitle>
+          <DrawerDescription>
+            Search for Movies, TV shows, etc.
+          </DrawerDescription>
+        </DrawerHeader>
+        <!-- Your Search form inside the Drawer -->
+        <form class="grid items-start gap-4 px-4">
+          <div class="grid gap-2">
+            <Label html-for="search">Search</Label>
+            <Input id="search" type="text" placeholder="Search movies..." />
+          </div>
+          <Button type="submit"> Search</Button>
+        </form>
+        <DrawerFooter class="pt-2">
+          <DrawerClose as-child>
+            <Button variant="outline"> Cancel</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   </div>
 </template>
 
 <script>
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ref } from "vue";
+import { useMediaQuery } from "@vueuse/core";
+
 export default {
+  components: {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+    Button,
+    Input,
+    Label,
+  },
   data() {
     return {
-      isNavOpen: false, // Controls whether the navbar content below hamburger is open
+      isNavOpen: false,
+      showSearchDialogue: ref(false),
+      isDesktop: useMediaQuery("(min-width: 768px)"),
     };
   },
   methods: {
     onChangeNav() {
-      // Toggles the visibility of navbar content
       this.isNavOpen = !this.isNavOpen;
+    },
+    onChangeSearchDialogueState() {
+      this.showSearchDialogue = !this.showSearchDialogue;
     },
   },
 };
 </script>
-
-<!-- TailwindCSS Styles -->
-<style scoped>
-.bg-primaryBlack {
-  background-color: hsl(260, 10%, 6%);
-}
-
-.text-primaryRed {
-  color: hsl(0, 80%, 50%);
-}
-</style>
