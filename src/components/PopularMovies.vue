@@ -18,6 +18,7 @@
             item.original_language,
             item.overview,
             item.genre_ids,
+            item.id
           )
         "
       >
@@ -71,6 +72,7 @@ export default {
       language,
       description,
       genres,
+      id
     ) {
       this.$store.commit("setSelectedMovieDetails", {
         title,
@@ -79,6 +81,7 @@ export default {
         language,
         description,
         genres,
+        id
       });
     },
   },
