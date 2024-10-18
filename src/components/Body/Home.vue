@@ -78,8 +78,16 @@
                 {{ expandedMovie === index ? "Read Less" : "Read More" }}
               </button>
 
-              <div class="mt-3">
-                <Button variant="secondary">Watch Now</Button>
+              <div class="flex items-center gap-3 mt-3">
+                <div>
+                  <Button variant="secondary">Watch Now</Button>
+                </div>
+                <div>
+                  <Button>
+                    <Info class="mr-1"/>
+                    More info
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -103,6 +111,7 @@ import { Button } from "@/components/ui/button";
 import Autoplay from "embla-carousel-autoplay";
 import { Skeleton } from "@/components/ui/skeleton";
 import PopularMovies from "@/components/PopularMovies.vue";
+import { Info } from "lucide-vue-next";
 
 export default {
   data() {
@@ -122,6 +131,7 @@ export default {
     Button,
     Autoplay,
     Skeleton,
+    Info,
   },
   methods: {
     truncatedText(text) {

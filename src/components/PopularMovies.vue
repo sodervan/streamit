@@ -1,7 +1,7 @@
 <template>
   <div class="px-6 my-10">
     <div class="text-white font-medium text-md mb-5">
-      <p>POPULAR MOVIES</p>
+      <p class="text-center">POPULAR MOVIES</p>
     </div>
 
     <!-- Grid with equal height rows -->
