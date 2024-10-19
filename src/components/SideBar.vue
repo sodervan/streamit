@@ -122,13 +122,22 @@
           </DrawerDescription>
         </DrawerHeader>
         <!-- Your Search form inside the Drawer -->
-        <form class="grid items-start gap-4 px-4">
+        <div class="grid items-start gap-4 px-4">
           <div class="grid gap-2">
             <Label html-for="search">Search</Label>
-            <Input id="search" type="text" placeholder="Search movies..." />
+            <Input
+              id="search"
+              type="text"
+              placeholder="Search movies..."
+              v-model="searchTerm"
+            />
           </div>
-          <Button type="submit"> Search</Button>
-        </form>
+          <Button
+            @click="searchConstruct"
+          >
+            Search</Button
+          >
+        </div>
         <DrawerFooter class="pt-2">
           <DrawerClose as-child>
             <Button variant="outline"> Cancel</Button>
@@ -189,6 +198,7 @@ export default {
       isNavOpen: false,
       showSearchDialogue: ref(false),
       isDesktop: useMediaQuery("(min-width: 768px)"),
+      searchTerm: "",
     };
   },
   methods: {
@@ -197,6 +207,22 @@ export default {
     },
     onChangeSearchDialogueState() {
       this.showSearchDialogue = !this.showSearchDialogue;
+    },
+    performSearch() {
+      if (this.searchTerm) {
+        const encodedSearchTerm = encodeURIComponent(this.searchTerm);
+        this.$router.push({
+          name: "Search",
+          params: { page: 1 },
+          query: { q: encodedSearchTerm },
+        });
+      } else {
+        alert("Please enter a search term.");
+      }
+    },
+    searchConstruct() {
+      this.onChangeSearchDialogueState();
+      this.performSearch();
     },
   },
 };
