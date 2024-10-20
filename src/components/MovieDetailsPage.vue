@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-    <div v-if="!isLoading && details.original_title">
+    <div v-if="!isLoading">
       <div class="w-full h-[300px]">
         <!-- Use route params correctly -->
         <iframe
@@ -70,13 +70,13 @@ export default {
     return {
       details: [],
       genres: this.$store.state.genres,
-      isLoading: false,
+      isLoading: true,
       id: "",
     };
   },
   methods: {
     async fetchMovieById() {
-      this.isLoading = !this.isLoading;
+      this.isLoading = true;
       const options = {
         method: "GET",
         headers: {
@@ -96,7 +96,7 @@ export default {
       } catch (error) {
         console.log(error);
       } finally {
-        this.isLoading = !this.isLoading;
+        this.isLoading = false;
       }
     },
   },

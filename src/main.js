@@ -10,7 +10,9 @@ const store = createStore({
       isLoading: false,
       trendingMoviesData: [],
       popularMoviesData: [],
+      popularSeriesData: [],
       selectedMovieDetails: {},
+      trendingSeriesData: {},
       genres: {
         28: "Action",
         12: "Adventure",
@@ -39,7 +41,9 @@ const store = createStore({
       state.isLoading = !state.isLoading;
       console.log("Loading state changed:", state.isLoading);
     },
-
+    setTrendingSeriesData(state, payload){
+      state.trendingSeriesData = payload
+    },
     setSelectedMovieDetails(state, payload) {
       state.selectedMovieDetails = payload;
     },
@@ -48,6 +52,9 @@ const store = createStore({
     },
     setPopularMoviesData(state, payload) {
       state.popularMoviesData = payload;
+    },
+    setPopularSeriesData(state, payload) {
+      state.popularSeriesData = payload;
     },
   },
   actions: {
@@ -76,6 +83,31 @@ const store = createStore({
       }
     },
 
+    async fetchTrendingSeries(context, payload) {
+      context.commit("setIsLoading");
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNmZmN2JkOWMxZmY5MTk4M2U4YmIyMTU4YjY0MzIzNSIsIm5iZiI6MTcyODc3MDY4MS4wMzIxMTgsInN1YiI6IjY2YmI1N2Q1NzAxNjYyMWZiMDczMDIxMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UYjZnCFWNuHFaiddoofrRDt_EkLwxwObJeOPLfn0tKE",
+        },
+      };
+      try {
+        const response = await fetch(
+          "https://api.themoviedb.org/3/trending/tv/day?language=en-US",
+          options,
+        );
+        const result = await response.json();
+        context.commit("setTrendingSeriesData", result.results);
+        console.log(context.state.trendingSeriesData);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        context.commit("setIsLoading");
+      }
+    },
+
     async fetchPopularMoviesData(context, payload) {
       // context.commit("setIsLoading");
       const options = {
@@ -94,6 +126,28 @@ const store = createStore({
         const result = await response.json();
         context.commit("setPopularMoviesData", result.results);
         console.log(context.state.popularMoviesData);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async fetchPopularSeriesData(context, payload) {
+      // context.commit("setIsLoading");
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNmZmN2JkOWMxZmY5MTk4M2U4YmIyMTU4YjY0MzIzNSIsIm5iZiI6MTcyODc3MDY4MS4wMzIxMTgsInN1YiI6IjY2YmI1N2Q1NzAxNjYyMWZiMDczMDIxMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UYjZnCFWNuHFaiddoofrRDt_EkLwxwObJeOPLfn0tKE",
+        },
+      };
+      try {
+        const response = await fetch(
+            "https://api.themoviedb.org/3/tv/popular?language=en-US&page=1",
+            options,
+        );
+        const result = await response.json();
+        context.commit("setPopularSeriesData", result.results);
+        console.log(context.state.popularSeriesData);
       } catch (error) {
         console.log(error);
       }

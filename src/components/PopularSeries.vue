@@ -1,26 +1,15 @@
 <template>
   <div class="px-6 my-10">
     <div class="text-white font-medium text-md mb-5">
-      <p class="text-center">POPULAR MOVIES</p>
+      <p class="text-center">POPULAR TV SERIES</p>
     </div>
 
     <!-- Grid with equal height rows -->
     <div class="grid grid-cols-2 gap-3">
       <router-link
-        v-for="(item, index) in $store.state.popularMoviesData"
-        :to="'/details/' + item.original_title + '/' + item.id"
+        v-for="(item, index) in $store.state.popularSeriesData"
+        :to="'/details/series/' + item.name + '/' + item.id"
         class="mb-6 flex flex-col items-center cursor-pointer shadow-lg"
-        @click="
-          passSelectedDetails(
-            item.original_title,
-            item.vote_average,
-            item.release_date,
-            item.original_language,
-            item.overview,
-            item.genre_ids,
-            item.id,
-          )
-        "
       >
         <!-- Image container with relative height -->
         <div class="relative w-full h-52">
@@ -36,11 +25,11 @@
           class="bg-[#151414] flex flex-col w-full h-24 px-3 py-2 items-start overflow-hidden relative"
         >
           <marquee-text class="text-white text-md">
-            {{ item.original_title }}
+            {{ item.name }}
           </marquee-text>
           <div class="flex items-center mt-1">
             <i class="fi fi-rr-calendar mr-2 text-red-500"></i>
-            <p class="text-gray-500 text-sm">{{ item.release_date }}</p>
+            <p class="text-gray-500 text-sm">{{ item.first_air_date }}</p>
           </div>
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2 mt-1">
@@ -60,27 +49,6 @@ import MarqueeText from "vue-marquee-text-component";
 export default {
   components: {
     MarqueeText,
-  },
-  methods: {
-    passSelectedDetails(
-      title,
-      rating,
-      releaseDate,
-      language,
-      description,
-      genres,
-      id,
-    ) {
-      this.$store.commit("setSelectedMovieDetails", {
-        title,
-        rating,
-        releaseDate,
-        language,
-        description,
-        genres,
-        id,
-      });
-    },
   },
 };
 </script>

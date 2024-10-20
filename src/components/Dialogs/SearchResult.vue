@@ -20,7 +20,11 @@
         <div class="grid grid-cols-2 gap-3">
           <router-link
             v-for="(item, index) in searchResults"
-            :to="'/details/' + item.original_title + '/' + item.id"
+            :to="
+              item.media_type === 'movie'
+                ? '/details/' + item.original_title + '/' + item.id
+                : '/details/series/' + item.original_title + '/' + item.id
+            "
             class="mb-6 flex flex-col items-center cursor-pointer shadow-lg"
             @click="
               passSelectedDetails(
@@ -49,7 +53,9 @@
               </marquee-text>
               <div class="flex items-center mt-1">
                 <i class="fi fi-rr-calendar mr-2 text-red-500"></i>
-                <p class="text-gray-500 text-sm">{{ item.release_date || item.first_air_date }}</p>
+                <p class="text-gray-500 text-sm">
+                  {{ item.release_date || item.first_air_date }}
+                </p>
               </div>
               <div class="flex items-center justify-between w-full">
                 <div class="flex items-center gap-2 mt-1">
@@ -57,7 +63,9 @@
                   <p class="text-gray-500 text-sm">{{ item.vote_average }}</p>
                 </div>
                 <div class="px-2 border border-gray-500">
-                  <p class="uppercase text-gray-500 text-sm">{{item.media_type}}</p>
+                  <p class="uppercase text-gray-500 text-sm">
+                    {{ item.media_type }}
+                  </p>
                 </div>
               </div>
             </div>

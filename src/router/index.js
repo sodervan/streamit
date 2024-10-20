@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../components/Body/Home.vue";
 import MovieDetailsPage from "@/components/MovieDetailsPage.vue";
 import SearchResult from "@/components/Dialogs/SearchResult.vue";
+import SeriesPage from "@/components/Body/SeriesPage.vue";
+import SeriesDetails from "@/components/SeriesDetails.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +22,16 @@ const router = createRouter({
       path: "/search/:page",
       name: "Search",
       component: SearchResult,
+    },
+    {
+      path: "/series",
+      name: "Series",
+      component: SeriesPage,
+    },
+    {
+      path: "/details/series/:title/:id",
+      name: "SeriesDetails",
+      component: SeriesDetails,
     },
   ],
 });

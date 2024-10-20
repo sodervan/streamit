@@ -48,15 +48,15 @@
             to="/"
             class="nav p-4 hover:bg-gray-500 transition-all duration-300 rounded-[20px] w-full"
           >
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 text-white">
               <i class="fi fi-rr-camera-movie"></i>
               <p class="text-white">Movies</p>
             </div>
           </router-link>
           <router-link
             @click="onChangeNav"
-            to="/"
-            class="p-4 hover:bg-gray-500 transition-all duration-300 rounded-[20px] w-full"
+            to="/series"
+            class="nav p-4 hover:bg-gray-500 transition-all duration-300 rounded-[20px] w-full"
           >
             <div class="flex items-center gap-3 text-white">
               <i class="fi fi-rr-tv-retro"></i>
