@@ -97,7 +97,7 @@
                   v-for="(episode, index) in seasonDetails"
                   :key="episode.id"
                   class="w-10 h-10 text-white my-1 flex justify-center items-center border border-gray-500 rounded-md cursor-pointer hover:bg-white hover:text-black transition duration-300 ease-in-out"
-                  @click="updateSeasonNumber(index + 1)"
+                  @click="navigateToEpisode({details, episode: index + 1})"
               >
                 {{ index + 1 }}
               </div>
@@ -148,6 +148,12 @@ export default {
     };
   },
   methods: {
+    navigateToEpisode(prop) {
+      this.$router.push({
+        name: "EpisodeDetails",
+        params: {title: prop.details.name, id: this.$route.params.id, season: this.seasonNumber, episode: prop.episode}
+      })
+    },
     updateSeasonNumber(number) {
       this.seasonNumber = number;
     },

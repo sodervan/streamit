@@ -23,7 +23,7 @@
             :to="
               item.media_type === 'movie'
                 ? '/details/' + item.original_title + '/' + item.id
-                : '/details/series/' + item.original_title + '/' + item.id
+                : '/details/series/' + item.name + '/' + item.id
             "
             class="mb-6 flex flex-col items-center cursor-pointer shadow-lg"
             @click="
