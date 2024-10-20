@@ -45,16 +45,19 @@
               class="bg-[#151414] flex flex-col w-full h-24 px-3 py-2 items-start overflow-hidden relative"
             >
               <marquee-text class="text-white text-md"
-                >{{ item.original_title }}
+                >{{ item.original_title || item.original_name }}
               </marquee-text>
               <div class="flex items-center mt-1">
                 <i class="fi fi-rr-calendar mr-2 text-red-500"></i>
-                <p class="text-gray-500 text-sm">{{ item.release_date }}</p>
+                <p class="text-gray-500 text-sm">{{ item.release_date || item.first_air_date }}</p>
               </div>
-              <div class="flex items-center justify-between">
+              <div class="flex items-center justify-between w-full">
                 <div class="flex items-center gap-2 mt-1">
                   <i class="fi fi-rr-feedback-review text-yellow-500"></i>
                   <p class="text-gray-500 text-sm">{{ item.vote_average }}</p>
+                </div>
+                <div class="px-2 border border-gray-500">
+                  <p class="uppercase text-gray-500 text-sm">{{item.media_type}}</p>
                 </div>
               </div>
             </div>
@@ -150,7 +153,7 @@ export default {
       };
       try {
         const response = await fetch(
-          `https://api.themoviedb.org/3/search/movie?query=${this.$route.query.q}&include_adult=false&language=en-US&page=${this.$route.params.page}`,
+          `https://api.themoviedb.org/3/search/multi?query=${this.$route.query.q}&include_adult=false&language=en-US&page=${this.$route.params.page}`,
           options,
         );
         const result = await response.json();
