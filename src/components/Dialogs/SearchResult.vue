@@ -61,7 +61,7 @@
           </router-link>
         </div>
 
-        <div class="my-4">
+        <div class="my-4 flex justify-center">
           <Pagination
             v-slot="{ page }"
             :total="totalPages"
@@ -155,9 +155,9 @@ export default {
         );
         const result = await response.json();
         this.searchResults = result.results;
-        this.totalResultNumber = result.total_result;
+        this.totalResultNumber = result.total_results;
         this.totalPages = result.total_pages;
-        // console.log(result);
+        console.log(result);
       } catch (error) {
         console.log(error);
       } finally {
