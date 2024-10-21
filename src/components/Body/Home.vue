@@ -62,10 +62,10 @@
               <div class="overflow-auto">
                 <p class="text-sm text-gray-300 mt-3">
                   <!-- Conditionally show truncated or full text based on isExpanded -->
-                  {{
+                  {{movie.overview ?
                     expandedMovie === index
                       ? movie.overview
-                      : truncatedText(movie.overview)
+                      : truncatedText(movie.overview) : "No Overview"
                   }}
                 </p>
               </div>
@@ -80,12 +80,14 @@
 
               <div class="flex items-center gap-3 mt-3">
                 <div>
-                  <Button variant="secondary">Watch Now</Button>
+                  <Button variant="secondary" @click="showMoreInfo(movie)"
+                    >Watch Now</Button
+                  >
                 </div>
                 <div>
                   <Button>
-                    <Info class="mr-1"/>
-                    More info
+                    <Plus class="mr-1" />
+                    Watchlist
                   </Button>
                 </div>
               </div>
@@ -100,6 +102,7 @@
 </template>
 
 <script>
+import { Plus } from "lucide-vue-next";
 import {
   Carousel,
   CarouselContent,
@@ -116,7 +119,11 @@ import { Info } from "lucide-vue-next";
 export default {
   data() {
     return {
-      autoplayPlugin: Autoplay({ delay: 5000 }), // Autoplay with 5-second delay
+      autoplayPlugin: Autoplay({
+        delay: 5000,
+        stopOnMouseEnter: true,
+        stopOnInteraction: true,
+      }), // Autoplay with 5-second delay
       expandedMovie: null, // To track the expanded/collapsed state of the movie overview
       truncatedLength: 100, // Define the length for the truncated text
     };
@@ -132,8 +139,15 @@ export default {
     Autoplay,
     Skeleton,
     Info,
+    Plus,
   },
   methods: {
+    showMoreInfo(prop) {
+      this.$router.push({
+        name: "Details",
+        params: { title: prop.original_title, id: prop.id },
+      });
+    },
     truncatedText(text) {
       return text.length > this.truncatedLength
         ? text.slice(0, this.truncatedLength) + "..."

@@ -81,12 +81,14 @@
 
               <div class="flex items-center gap-3 mt-3">
                 <div>
-                  <Button variant="secondary">Watch Now</Button>
+                  <Button variant="secondary" @click="showDetails(series)"
+                    >Watch Now</Button
+                  >
                 </div>
                 <div>
                   <Button>
-                    <Info class="mr-1" />
-                    More info
+                    <Plus class="mr-1" />
+                    Watchlist
                   </Button>
                 </div>
               </div>
@@ -112,14 +114,18 @@ import { Button } from "@/components/ui/button";
 import Autoplay from "embla-carousel-autoplay";
 import { Skeleton } from "@/components/ui/skeleton";
 import PopularSeries from "@/components/PopularSeries.vue";
-import { Info } from "lucide-vue-next";
+import { Plus } from "lucide-vue-next";
 
 export default {
   data() {
     return {
-      autoplayPlugin: Autoplay({ delay: 5000 }), // Autoplay with 5-second delay
-      expandedMovie: null, // To track the expanded/collapsed state of the movie overview
-      truncatedLength: 100, // Define the length for the truncated text
+      autoplayPlugin: Autoplay({
+        delay: 5000,
+        stopOnMouseEnter: true,
+        stopOnInteraction: true,
+      }),
+      expandedMovie: null,
+      truncatedLength: 100,
     };
   },
   components: {
@@ -132,9 +138,15 @@ export default {
     Button,
     Autoplay,
     Skeleton,
-    Info,
+    Plus,
   },
   methods: {
+    showDetails(prop) {
+      this.$router.push({
+        name: "SeriesDetails",
+        params: { title: prop.name, id: prop.id },
+      });
+    },
     truncatedText(text) {
       return text.length > this.truncatedLength
         ? text.slice(0, this.truncatedLength) + "..."

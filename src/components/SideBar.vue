@@ -12,6 +12,8 @@
       >
         <i class="fi fi-rr-menu-burger text-white text-xl"></i>
       </button>
+      <!--Mode-->
+      <p class="text-white">-{{$route.name === "Series" || "SeriesDetails" || "EpisodeDetails" ? "Tv Series" : "Movies"}}-</p>
       <!-- Search Icon -->
       <button
         aria-label="Search"
