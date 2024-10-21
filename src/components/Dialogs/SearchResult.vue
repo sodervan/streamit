@@ -19,7 +19,7 @@
 
         <div class="grid grid-cols-2 gap-3">
           <router-link
-            v-for="(item, index) in searchResults"
+            v-for="(item, index) in filteredSearchResults"
             :to="
               item.media_type === 'movie'
                 ? '/details/' + item.original_title + '/' + item.id
@@ -27,17 +27,6 @@
             "
             class="mb-6 flex flex-col items-center cursor-pointer shadow-lg"
             :key="index"
-            @click="
-              passSelectedDetails(
-                item.original_title,
-                item.vote_average,
-                item.release_date,
-                item.original_language,
-                item.overview,
-                item.genre_ids,
-                item.id,
-              )
-            "
           >
             <div class="relative w-full h-52">
               <img
@@ -107,7 +96,7 @@
         <!--          </Pagination>-->
         <p class="text-gray-500 text-center">Pages</p>
         <div
-          class="mb-4 flex flex-wrap items-center justify-center space-x-2 w-full p-3 overflow-y-auto max-h-[95px]"
+          class="mb-8 flex mt-2 flex-wrap items-center justify-center space-x-2 w-full p-3 overflow-y-auto max-h-[95px]"
         >
           <!--          <button-->
           <!--            v-if="currentPage > 1"-->
@@ -181,6 +170,11 @@ export default {
       totalPages: 0,
       currentPage: parseInt(this.$route.params.page) || 1,
     };
+  },
+  computed: {
+    filteredSearchResults() {
+      return this.searchResults.filter(item => item.poster_path);
+    },
   },
   methods: {
     async fetchSearchResults() {
