@@ -28,7 +28,15 @@
           <p class="text-red-500 font-medium">{{ details.vote_average }}</p>
           <p class="text-white">{{ details.first_air_date }}</p>
           <div class="px-2 border border-white">
-            <p class="text-white">{{ details.languages[0] }}</p>
+            <p>
+              <span
+                  v-for="(item, index) in details.languages"
+                  class="text-sm text-gray-400"
+              >{{
+                  item
+                }}<span v-if="details.languages.length > 1">, </span></span
+              >
+            </p>
           </div>
         </div>
         <div class="mt-3">

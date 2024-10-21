@@ -22,20 +22,23 @@
       <div class="px-6">
         <div class="mt-4 flex item-center gap-5">
           <div class="flex flex-col gap-3">
-            <p class="text-white text-lg font-medium">
-              {{ $route.params.title }}
-            </p>
             <div class="flex items-center gap-5">
-              <p class="text-gray-400">
-                {{ details.name }}
+              <p class="text-white text-lg font-medium">
+                {{ $route.params.title }}
               </p>
-              <div class="px-3 border border-gray-500">
-                <p class="text-white font-bold">
-                  S <span>{{ details.season_number }}</span
-                  ><span> : </span>E <span>{{ details.episode_number }}</span>
-                </p>
+              <div class="flex items-center">
+                <div class="px-3 border border-gray-500">
+                  <p class="text-white font-bold">
+                    S <span>{{ details.season_number }}</span
+                    ><span> : </span>E <span>{{ details.episode_number }}</span>
+                  </p>
+                </div>
               </div>
             </div>
+
+            <p class="text-gray-400">
+              {{ details.name }}
+            </p>
           </div>
         </div>
         <div class="flex items-center gap-4 mt-3">
