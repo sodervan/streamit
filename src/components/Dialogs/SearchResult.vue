@@ -44,6 +44,7 @@
                 :src="`https://image.tmdb.org/t/p/original${item.poster_path}`"
                 alt="#"
                 class="absolute top-0 left-0 w-full h-full object-cover rounded-t-[30px]"
+                loading="lazy"
               />
             </div>
             <div
