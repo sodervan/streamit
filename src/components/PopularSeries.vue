@@ -31,10 +31,13 @@
             <i class="fi fi-rr-calendar mr-2 text-red-500"></i>
             <p class="text-gray-500 text-sm">{{ item.first_air_date }}</p>
           </div>
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between w-full">
             <div class="flex items-center gap-2 mt-1">
               <i class="fi fi-rr-feedback-review text-yellow-500"></i>
               <p class="text-gray-500 text-sm">{{ item.vote_average }}</p>
+            </div>
+            <div>
+              <p class="text-gray-500">{{item.original_language}}</p>
             </div>
           </div>
         </div>
