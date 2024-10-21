@@ -12,7 +12,7 @@
     <div v-if="!isLoading">
       <div class="grid grid-cols-2 gap-3">
         <router-link
-          v-for="(item, index) in similarMoviesData"
+          v-for="(item, index) in filteredSearchResults"
           :to="'/details/series/' + item.name + '/' + item.id"
           class="mb-6 flex flex-col items-center cursor-pointer shadow-lg"
         >
@@ -64,6 +64,11 @@ export default {
       details: this.$store.state.selectedMovieDetails,
       isLoading: false,
     };
+  },
+  computed: {
+    filteredSearchResults() {
+      return this.similarMoviesData.filter(item => item.poster_path);
+    },
   },
   methods: {
     async fetchSimilarSeries() {
