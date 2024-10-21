@@ -17,7 +17,7 @@
           <p class="text-white text-center text-lg">Search Results for "{{ decodeURIComponent($route.query.q)}}"</p>
         </div>
 
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 gap-3 justify-center w-full">
           <router-link
             v-for="(item, index) in filteredSearchResults"
             :to="
