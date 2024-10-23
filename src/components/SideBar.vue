@@ -13,7 +13,7 @@
         <i class="fi fi-rr-menu-burger text-white text-xl"></i>
       </button>
       <!--Mode-->
-      <p class="text-white">-{{ $route.name === "Series" || $route.name === "SeriesDetails" || $route.name === "EpisodeDetails" ? "Tv Series" : "Movies"}}-</p>
+      <p class="text-white">-{{ $route.name === "Series" || $route.name === "SeriesDetails" || $route.name === "EpisodeDetails" ? "Tv Series" : $route.name === "Watchlist" ? "Watchlist" : "Movies"}}-</p>
       <!-- Search Icon -->
       <button
         aria-label="Search"

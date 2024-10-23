@@ -24,6 +24,35 @@
             {{ details.name }}
           </p>
         </div>
+        <div class="my-2">
+          <Button
+              @click="
+              () => {
+                watchlist.some((item) => item.id === details.id)
+                  ? toast({
+                      title: 'Removed from Watchlist',
+                      description: `${details.name} has been removed from your watchlist.`,
+                    })
+                  : toast({
+                      title: 'Added to Watchlist',
+                      description: `${details.name} has been added to your watchlist.`,
+                    });
+                addToWatchlist(details);
+              }
+            "
+          >
+            <X
+                class="mr-1"
+                v-if="watchlist.some((item) => item.id === details.id)"
+            />
+            <Plus class="mr-1" v-else/>
+            {{
+              watchlist.some((item) => item.id === details.id)
+                  ? "Remove"
+                  : "Watchlist"
+            }}
+          </Button>
+        </div>
         <div class="flex items-center gap-4 mt-3">
           <p class="text-red-500 font-medium">{{ details.vote_average }}</p>
           <p class="text-white">{{ details.first_air_date }}</p>
@@ -131,9 +160,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {Plus, X} from "lucide-vue-next";
+import {Button} from "@/components/ui/button/index.js";
+import { useToast } from "@/components/ui/toast/use-toast";
+import { watch } from "vue";
 
 export default {
   components: {
+    Button, Plus, X,
     SimilarSeries,
     Skeleton,
     Select,
@@ -153,9 +187,35 @@ export default {
       seasonNumber: 1,
       seasonDetails: [],
       episodeLoading: true,
+      toast: useToast().toast,
+      watchlist: [],
     };
   },
   methods: {
+    watch,
+    getWatchlist() {
+      let watchlist = [];
+
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const item = JSON.parse(localStorage.getItem(key));
+        this.watchlist.push(item);
+      }
+      console.log(this.watchlist);
+      return watchlist;
+    },
+    addToWatchlist(prop) {
+      if (this.watchlist.some((item) => item.id === prop.id)) {
+        localStorage.removeItem(prop.id);
+        this.watchlist = this.watchlist.filter(
+            (watchlistItem) => watchlistItem.id !== prop.id,
+        );
+      } else {
+        localStorage.setItem(prop.id, JSON.stringify(prop));
+        this.getWatchlist()
+        console.log(localStorage.getItem(prop.id));
+      }
+    },
     navigateToEpisode(prop) {
       this.$router.push({
         name: "EpisodeDetails",
@@ -233,6 +293,7 @@ export default {
   mounted() {
     this.fetchSeriesById();
     this.fetchSeasonById()
+    this.getWatchlist()
     this.id = this.$route.params.id;
   },
 };

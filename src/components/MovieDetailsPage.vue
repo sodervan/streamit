@@ -25,6 +25,35 @@
             {{ details.original_title }}
           </p>
         </div>
+        <div class="my-2">
+          <Button
+            @click="
+              () => {
+                watchlist.some((item) => item.id === details.id)
+                  ? toast({
+                      title: 'Removed from Watchlist',
+                      description: `${details.title} has been removed from your watchlist.`,
+                    })
+                  : toast({
+                      title: 'Added to Watchlist',
+                      description: `${details.title} has been added to your watchlist.`,
+                    });
+                addToWatchlist(details);
+              }
+            "
+          >
+            <X
+              class="mr-1"
+              v-if="watchlist.some((item) => item.id === details.id)"
+            />
+            <Plus class="mr-1" v-else />
+            {{
+              watchlist.some((item) => item.id === details.id)
+                ? "Remove"
+                : "Watchlist"
+            }}
+          </Button>
+        </div>
         <div class="flex items-center gap-4 mt-3">
           <p class="text-red-500 font-medium">{{ details.vote_average }}</p>
           <p class="text-white">{{ details.release_date }}</p>
@@ -47,11 +76,7 @@
           </p>
         </div>
       </div>
-      <p
-        class="text-white text-center font-medium mt-10"
-      >
-        SIMILAR MOVIES
-      </p>
+      <p class="text-white text-center font-medium mt-10">SIMILAR MOVIES</p>
       <SimilarMovies />
     </div>
   </div>
@@ -60,21 +85,48 @@
 <script>
 import SimilarMovies from "@/components/SimilarMovies.vue";
 import { Skeleton } from "@/components/ui/skeleton/index.js";
+import { Plus, X } from "lucide-vue-next";
+import { Button } from "@/components/ui/button/index.js";
+import { useToast } from "@/components/ui/toast/use-toast";
+import { watch } from "vue";
 
 export default {
-  components: {
-    SimilarMovies,
-    Skeleton,
-  },
+  components: { Button, Plus, X, SimilarMovies, Skeleton },
   data() {
     return {
       details: [],
       genres: this.$store.state.genres,
       isLoading: true,
       id: "",
+      toast: useToast().toast,
+      watchlist: [],
     };
   },
   methods: {
+    watch,
+    getWatchlist() {
+      let watchlist = [];
+
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const item = JSON.parse(localStorage.getItem(key));
+        this.watchlist.push(item);
+      }
+      console.log(this.watchlist);
+      return watchlist;
+    },
+    addToWatchlist(prop) {
+      if (this.watchlist.some((item) => item.id === prop.id)) {
+        localStorage.removeItem(prop.id);
+        this.watchlist = this.watchlist.filter(
+            (watchlistItem) => watchlistItem.id !== prop.id,
+        );
+      } else {
+        localStorage.setItem(prop.id, JSON.stringify(prop));
+        this.getWatchlist()
+        console.log(localStorage.getItem(prop.id));
+      }
+    },
     async fetchMovieById() {
       this.isLoading = true;
       const options = {
@@ -110,6 +162,7 @@ export default {
   },
   mounted() {
     this.fetchMovieById();
+    this.getWatchlist()
     this.id = this.$route.params.id;
   },
 };

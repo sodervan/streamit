@@ -82,13 +82,36 @@
               <div class="flex items-center gap-3 mt-3">
                 <div>
                   <Button variant="secondary" @click="showDetails(series)"
-                    >Watch Now</Button
-                  >
+                    >Watch Now
+                  </Button>
                 </div>
                 <div>
-                  <Button>
-                    <Plus class="mr-1" />
-                    Watchlist
+                  <Button
+                    @click="
+                      () => {
+                        watchlist.some((item) => item.id === series.id)
+                          ? toast({
+                              title: 'Removed from Watchlist',
+                              description: `${series.name} has been removed from your watchlist.`,
+                            })
+                          : toast({
+                              title: 'Added to Watchlist',
+                              description: `${series.name} has been added to your watchlist.`,
+                            });
+                        addToWatchlist(series);
+                      }
+                    "
+                  >
+                    <X
+                      class="mr-1"
+                      v-if="watchlist.some((item) => item.id === series.id)"
+                    />
+                    <Plus class="mr-1" v-else />
+                    {{
+                      watchlist.some((item) => item.id === series.id)
+                        ? "Remove"
+                        : "Watchlist"
+                    }}
                   </Button>
                 </div>
               </div>
@@ -114,7 +137,9 @@ import { Button } from "@/components/ui/button";
 import Autoplay from "embla-carousel-autoplay";
 import { Skeleton } from "@/components/ui/skeleton";
 import PopularSeries from "@/components/PopularSeries.vue";
-import { Plus } from "lucide-vue-next";
+import { Plus, X } from "lucide-vue-next";
+import { useToast } from "@/components/ui/toast/use-toast";
+import { watch } from "vue";
 
 export default {
   data() {
@@ -126,9 +151,12 @@ export default {
       }),
       expandedMovie: null,
       truncatedLength: 100,
+      toast: useToast().toast,
+      watchlist: [],
     };
   },
   components: {
+    X,
     PopularSeries,
     Carousel,
     CarouselNext,
@@ -141,6 +169,30 @@ export default {
     Plus,
   },
   methods: {
+    watch,
+    getWatchlist() {
+      let watchlist = [];
+
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const item = JSON.parse(localStorage.getItem(key));
+        this.watchlist.push(item);
+      }
+      console.log(this.watchlist);
+      return watchlist;
+    },
+    addToWatchlist(prop) {
+      if (this.watchlist.some((item) => item.id === prop.id)) {
+        localStorage.removeItem(prop.id);
+        this.watchlist = this.watchlist.filter(
+            (watchlistItem) => watchlistItem.id !== prop.id,
+        );
+      } else {
+        localStorage.setItem(prop.id, JSON.stringify(prop));
+        this.getWatchlist()
+        console.log(localStorage.getItem(prop.id));
+      }
+    },
     showDetails(prop) {
       this.$router.push({
         name: "SeriesDetails",
@@ -159,6 +211,7 @@ export default {
   mounted() {
     this.$store.dispatch("fetchTrendingSeries");
     this.$store.dispatch("fetchPopularSeriesData");
+    this.getWatchlist()
   },
 };
 </script>

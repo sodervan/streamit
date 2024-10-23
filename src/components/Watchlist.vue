@@ -46,7 +46,7 @@
                 <div
                   class="px-3 border border-gray-500 text-white uppercase text-sm"
                 >
-                  <p>{{ item.media_type }}</p>
+                  <p>{{ item.media_type ? item.media_type : item.number_of_seasons ? "TV" : "" }}</p>
                 </div>
                 <div>
                   <p class="text-gray-500">{{ item.original_language }}</p>
