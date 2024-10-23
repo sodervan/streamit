@@ -62,10 +62,12 @@
               <div class="overflow-auto">
                 <p class="text-sm text-gray-300 mt-3">
                   <!-- Conditionally show truncated or full text based on isExpanded -->
-                  {{movie.overview ?
-                    expandedMovie === index
-                      ? movie.overview
-                      : truncatedText(movie.overview) : "No Overview"
+                  {{
+                    movie.overview
+                      ? expandedMovie === index
+                        ? movie.overview
+                        : truncatedText(movie.overview)
+                      : "No Overview"
                   }}
                 </p>
               </div>
@@ -80,14 +82,37 @@
 
               <div class="flex items-center gap-3 mt-3">
                 <div>
-                  <Button variant="secondary" @click="showMoreInfo(movie)"
-                    >Watch Now</Button
-                  >
+                  <Button variant="secondary" @click="showMoreInfo(movie)">
+                    Watch Now
+                  </Button>
                 </div>
                 <div>
-                  <Button>
-                    <Plus class="mr-1" />
-                    Watchlist
+                  <Button
+                    @click="
+                      () => {
+                        watchlist.some((item) => item.id === movie.id)
+                          ? toast({
+                              title: 'Removed from Watchlist',
+                              description: `${movie.title} has been removed from your watchlist.`,
+                            })
+                          : toast({
+                              title: 'Added to Watchlist',
+                              description: `${movie.title} has been added to your watchlist.`,
+                            });
+                        addToWatchlist(movie);
+                      }
+                    "
+                  >
+                    <X
+                      class="mr-1"
+                      v-if="watchlist.some((item) => item.id === movie.id)"
+                    />
+                    <Plus class="mr-1" v-else />
+                    {{
+                      watchlist.some((item) => item.id === movie.id)
+                        ? "Remove"
+                        : "Watchlist"
+                    }}
                   </Button>
                 </div>
               </div>
@@ -102,7 +127,7 @@
 </template>
 
 <script>
-import { Plus } from "lucide-vue-next";
+import { Plus, X } from "lucide-vue-next";
 import {
   Carousel,
   CarouselContent,
@@ -115,6 +140,8 @@ import Autoplay from "embla-carousel-autoplay";
 import { Skeleton } from "@/components/ui/skeleton";
 import PopularMovies from "@/components/PopularMovies.vue";
 import { Info } from "lucide-vue-next";
+import { useToast } from "@/components/ui/toast/use-toast";
+import { watch } from "vue";
 
 export default {
   data() {
@@ -123,9 +150,11 @@ export default {
         delay: 5000,
         stopOnMouseEnter: true,
         stopOnInteraction: true,
-      }), // Autoplay with 5-second delay
-      expandedMovie: null, // To track the expanded/collapsed state of the movie overview
-      truncatedLength: 100, // Define the length for the truncated text
+      }),
+      expandedMovie: null,
+      truncatedLength: 100,
+      toast: useToast().toast,
+      watchlist: [],
     };
   },
   components: {
@@ -140,8 +169,40 @@ export default {
     Skeleton,
     Info,
     Plus,
+    X,
+    useToast,
   },
   methods: {
+    watch,
+    getWatchlist() {
+      let watchlist = [];
+
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const item = JSON.parse(localStorage.getItem(key));
+        this.watchlist.push(item);
+      }
+      console.log(this.watchlist);
+      return watchlist;
+    },
+    removeItem(prop) {
+      localStorage.removeItem(prop.id);
+      this.watchlist = this.watchlist.filter(
+        (watchlistItem) => watchlistItem.id !== prop.id,
+      );
+    },
+    addToWatchlist(prop) {
+      if (this.watchlist.some((item) => item.id === prop.id)) {
+        localStorage.removeItem(prop.id);
+        this.watchlist = this.watchlist.filter(
+          (watchlistItem) => watchlistItem.id !== prop.id,
+        );
+      } else {
+        localStorage.setItem(prop.id, JSON.stringify(prop));
+        this.getWatchlist()
+        console.log(localStorage.getItem(prop.id));
+      }
+    },
     showMoreInfo(prop) {
       this.$router.push({
         name: "Details",
@@ -160,6 +221,7 @@ export default {
   mounted() {
     this.$store.dispatch("fetchTrendingMovies");
     this.$store.dispatch("fetchPopularMoviesData");
+    this.getWatchlist();
   },
 };
 </script>

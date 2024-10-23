@@ -5,6 +5,7 @@ import SearchResult from "@/components/Dialogs/SearchResult.vue";
 import SeriesPage from "@/components/Body/SeriesPage.vue";
 import SeriesDetails from "@/components/SeriesDetails.vue";
 import EpisodeDetails from "@/components/EpisodeDetails.vue";
+import Watchlist from "@/components/Watchlist.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: "/details/series/:title/:id/:season/:episode",
       name: "EpisodeDetails",
       component: EpisodeDetails,
+    },
+    {
+      path: "/watchlist",
+      name: "Watchlist",
+      component: Watchlist,
     }
   ],
 });
