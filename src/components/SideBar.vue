@@ -77,7 +77,7 @@
           </router-link>
           <router-link
             @click="onChangeNav"
-            to="/"
+            to="/about"
             class="p-4 hover:bg-gray-500 transition-all duration-300 rounded-[20px] w-full"
           >
             <div class="flex items-center gap-3 text-white">

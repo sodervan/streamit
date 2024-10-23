@@ -6,6 +6,7 @@ import SeriesPage from "@/components/Body/SeriesPage.vue";
 import SeriesDetails from "@/components/SeriesDetails.vue";
 import EpisodeDetails from "@/components/EpisodeDetails.vue";
 import Watchlist from "@/components/Watchlist.vue";
+import AboutPage from "@/components/Body/AboutPage.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: "/watchlist",
       name: "Watchlist",
       component: Watchlist,
+    },
+    {
+      path: "/about",
+      name: "About",
+      component: AboutPage,
     }
   ],
 });
